@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>引导式配置网站</title>
+  <style>
+    :root{
+      color-scheme:light dark;
+      --bg:#f4f6f2;--paper:#ffffff;--paper-2:#eef2eb;--ink:#15211f;--muted:#56625f;
+      --line:#cfd8d1;--teal:#0c6d63;--teal-2:#0a554e;--soft:#dcece7;--amber:#b75b1c;
+      --amber-soft:#f8e5d8;--red:#9f3b36;--red-soft:#f6dfdc;--shadow:0 20px 55px rgba(25,48,42,.12);
+    }
+    @media(prefers-color-scheme:dark){:root{
+      --bg:#0d1413;--paper:#131d1b;--paper-2:#172420;--ink:#e7efec;--muted:#aab8b3;
+      --line:#2d403b;--teal:#60c8b8;--teal-2:#8ed8cc;--soft:#183d37;--amber:#ef9b5f;
+      --amber-soft:#3a271d;--red:#ef8e87;--red-soft:#3b2322;--shadow:0 22px 60px rgba(0,0,0,.28);
+    }}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans SC",system-ui,sans-serif;line-height:1.65}
+    button,input,select{font:inherit} button{color:inherit} a{color:var(--teal);text-underline-offset:3px}
+    .shell{min-height:100vh;display:grid;grid-template-columns:320px minmax(0,1fr)}
+    .rail{position:sticky;top:0;height:100vh;padding:28px 22px 24px;border-right:1px solid var(--line);background:var(--paper);display:flex;flex-direction:column;overflow:auto}
+    .rail-intro{padding:0 8px 22px}.status-line{display:flex;align-items:center;gap:9px;color:var(--teal);font:600 12px/1.4 "IBM Plex Mono",monospace;letter-spacing:.04em}.status-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 5px var(--soft)}
+    .rail h2{font-size:22px;line-height:1.25;margin:15px 0 8px}.rail p{margin:0;color:var(--muted);font-size:13px}
+    .route-nav{display:grid;gap:7px}.route-btn{border:0;background:transparent;border-radius:10px;text-align:left;padding:11px 12px;display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;cursor:pointer;color:var(--muted)}
+    .route-btn:hover{background:var(--paper-2);color:var(--ink)}.route-btn.active{background:var(--soft);color:var(--teal-2);font-weight:600}.route-num{font:600 11px/1 "IBM Plex Mono",monospace}.route-mark{font-size:12px;color:var(--teal)}
+    .rail-bottom{margin-top:auto;padding:18px 8px 0}.manual-open{width:100%;border:1px solid var(--line);background:var(--paper-2);border-radius:10px;padding:11px 14px;cursor:pointer;font-weight:600}.manual-open:hover{border-color:var(--teal)}
+    .main{min-width:0;padding:52px clamp(24px,5vw,76px) 80px}.hero{max-width:920px;margin:0 auto 32px}.hero h1{font-size:clamp(34px,5vw,66px);line-height:1.04;letter-spacing:-.045em;margin:0 0 18px;max-width:820px}.hero p{font-size:17px;color:var(--muted);max-width:720px;margin:0}
+    .hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.chip{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 11px;font-size:12px;color:var(--muted)}
+    .mobile-picker{display:none;max-width:920px;margin:0 auto 20px}.mobile-picker label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}.mobile-picker select{width:100%;padding:12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;color:var(--ink)}
+    .workspace{max-width:920px;margin:0 auto;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+    .guide-head{display:grid;grid-template-columns:1fr auto;gap:18px;padding:30px 34px;border-bottom:1px solid var(--line);align-items:start}.guide-kicker{color:var(--teal);font:600 12px/1.4 "IBM Plex Mono",monospace;margin-bottom:10px}.guide-title{font-size:clamp(25px,3vw,38px);line-height:1.18;margin:0 0 8px;letter-spacing:-.025em}.guide-desc{margin:0;color:var(--muted);max-width:680px}.difficulty{font:600 11px/1 "IBM Plex Mono",monospace;border:1px solid var(--line);padding:8px 9px;border-radius:7px;color:var(--muted);white-space:nowrap}
+    .route-map{display:flex;gap:0;padding:0 34px;border-bottom:1px solid var(--line);overflow:hidden}.stage-tab{position:relative;flex:1;border:0;border-bottom:3px solid transparent;background:transparent;padding:16px 8px 13px;color:var(--muted);font-size:13px;cursor:pointer}.stage-tab.current{color:var(--teal);border-bottom-color:var(--teal);font-weight:600}.stage-tab.done::after{content:"✓";margin-left:6px;color:var(--teal)}
+    .stage{padding:34px;display:grid;grid-template-columns:minmax(0,1fr) 235px;gap:30px}.stage-main h3{margin:0 0 10px;font-size:25px;line-height:1.25}.stage-main>.lead{margin:0 0 24px;color:var(--muted)}
+    .task-list{display:grid;gap:12px}.task{border-top:1px solid var(--line);padding:16px 0;display:grid;grid-template-columns:34px 1fr;gap:12px}.task:first-child{border-top:0}.task-index{width:28px;height:28px;border-radius:50%;background:var(--paper-2);display:grid;place-items:center;color:var(--teal);font:600 12px/1 "IBM Plex Mono",monospace}.task h4{margin:1px 0 5px;font-size:16px}.task p{margin:0;color:var(--muted);font-size:14px}.task code,.inline-code{font-family:"IBM Plex Mono",monospace;background:var(--paper-2);padding:2px 5px;border-radius:4px;color:var(--ink);font-size:.92em}
+    .command{margin-top:11px;background:#10201d;color:#d9ebe6;border-radius:8px;padding:13px 42px 13px 14px;position:relative;overflow:auto;font:12px/1.65 "IBM Plex Mono",monospace;white-space:pre}.copy-mini{position:absolute;right:7px;top:7px;border:1px solid #36534c;background:#18302b;color:#d9ebe6;border-radius:6px;padding:4px 7px;cursor:pointer;font-size:11px}
+    .side-note{align-self:start;background:var(--paper-2);padding:18px;border-radius:10px}.side-note h4{margin:0 0 9px;font-size:14px}.side-note p,.side-note li{font-size:12px;color:var(--muted)}.side-note ul{padding-left:17px;margin:0}.side-note .warning{color:var(--amber);font-weight:600;margin-top:12px}.source-link{display:inline-block;margin-top:14px;font-size:12px;font-weight:600}
+    .stage-controls{padding:20px 34px 28px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:space-between;align-items:center}.ctrl{border:1px solid var(--line);background:var(--paper);border-radius:9px;padding:10px 15px;cursor:pointer}.ctrl:hover{border-color:var(--teal)}.ctrl.primary{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:600}.ctrl.primary:hover{background:var(--teal-2)}.ctrl:disabled{opacity:.4;cursor:not-allowed}.progress-label{font:500 11px/1.4 "IBM Plex Mono",monospace;color:var(--muted)}
+    .manual-panel{max-width:920px;margin:26px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:16px}.manual-card{background:var(--paper);border:1px solid var(--line);padding:20px}.manual-card h3{margin:0 0 8px;font-size:17px}.manual-card p{margin:0;color:var(--muted);font-size:13px}.manual-card.accent{background:var(--soft);border-color:transparent}.manual-card button{margin-top:14px}
+    dialog{width:min(760px,calc(100vw - 28px));max-height:88vh;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:0;box-shadow:var(--shadow)}dialog::backdrop{background:rgba(5,15,13,.68)}
+    .modal-head{position:sticky;top:0;background:var(--paper);display:flex;justify-content:space-between;align-items:center;padding:22px 24px;border-bottom:1px solid var(--line);z-index:2}.modal-head h2{margin:0;font-size:22px}.close{border:0;background:var(--paper-2);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:19px}.modal-body{padding:24px}.manual-block{padding:18px 0;border-top:1px solid var(--line)}.manual-block:first-child{border-top:0;padding-top:0}.manual-block h3{font-size:17px;margin:0 0 5px}.manual-block p{font-size:13px;color:var(--muted);margin:0 0 12px}.field-row{display:grid;grid-template-columns:1fr auto;gap:8px}.field-row input{min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:10px 11px}.field-row button{border:1px solid var(--line);background:var(--paper-2);border-radius:8px;padding:8px 11px;cursor:pointer}.field-hint{font-size:11px!important;margin-top:7px!important}.invite{background:var(--soft);padding:16px;border-radius:9px}.invite pre{white-space:pre-wrap;margin:0;font:13px/1.7 "IBM Plex Sans SC",sans-serif}.invite-actions{display:flex;gap:8px;margin-top:12px}.invite-actions button,.invite-actions a{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:8px 11px;font-size:12px;cursor:pointer;text-decoration:none}.security-note{background:var(--red-soft);color:var(--red);padding:12px 14px;border-radius:8px;font-size:12px;margin-bottom:18px}
+    .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:9px 13px;border-radius:8px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:20}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .noscript{padding:16px;background:var(--amber-soft);color:var(--amber)}
+    @media(max-width:860px){.shell{display:block}.rail{display:none}.main{padding:30px 16px 64px}.hero{margin-bottom:22px}.hero h1{font-size:40px}.mobile-picker{display:block}.guide-head{padding:24px 20px}.route-map{padding:0 8px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible}.stage-tab{min-width:0;padding-inline:3px;font-size:12px}.stage{padding:25px 20px;grid-template-columns:1fr}.side-note{order:-1}.stage-controls{padding:17px 20px 22px}.manual-panel{grid-template-columns:1fr}.difficulty{display:none}}
+    @media(max-width:520px){.hero h1{font-size:34px}.hero p{font-size:15px}.workspace{border-left:0;border-right:0;margin-left:-16px;margin-right:-16px}.guide-head{grid-template-columns:1fr}.route-map{justify-content:flex-start}.stage{gap:18px}.stage-controls{display:grid;grid-template-columns:1fr 1fr}.progress-label{grid-column:1/-1;text-align:center;order:-1}.ctrl{width:100%}.manual-panel{margin-top:18px}.modal-body{padding:18px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <noscript><div class="noscript">此向导需要 JavaScript 才能切换步骤；请启用后再使用。</div></noscript>
+  <div class="shell">
+    <aside class="rail">
+      <div class="rail-intro">
+        <div class="status-line"><span class="status-dot"></span>CONFIG WORKBENCH</div>
+        <h2>十条路线，一次理清</h2>
+        <p>每条路线都拆成准备、部署、配置、验收与人工操作。</p>
+      </div>
+      <nav class="route-nav" id="routeNav" aria-label="配置路线"></nav>
+      <div class="rail-bottom"><button class="manual-open" data-open-manual>打开人工操作台</button></div>
+    </aside>
+
+    <main class="main">
+      <section class="hero">
+        <h1>先选路线，再一步一步把服务跑起来。</h1>
+        <p>这不是一页堆满命令的文章。先判断前置条件，再执行配置，最后按检查点验收；需要你亲自登录、授权、兑换或填写的地方会单独亮出来。</p>
+        <div class="hero-meta"><span class="chip">10 条配置路线</span><span class="chip">手机 / 桌面自适应</span><span class="chip">输入仅本次浏览有效</span></div>
+      </section>
+
+      <div class="mobile-picker">
+        <label for="routeSelect">当前路线</label>
+        <select id="routeSelect" aria-label="选择配置路线"></select>
+      </div>
+
+      <section class="workspace" aria-live="polite">
+        <header class="guide-head">
+          <div><div class="guide-kicker" id="guideKicker"></div><h2 class="guide-title" id="guideTitle"></h2><p class="guide-desc" id="guideDesc"></p></div>
+          <div class="difficulty" id="guideDifficulty"></div>
+        </header>
+        <div class="route-map" id="stageTabs" role="tablist" aria-label="步骤阶段"></div>
+        <div class="stage" id="stagePanel"></div>
+        <div class="stage-controls">
+          <button class="ctrl" id="prevBtn">上一步</button>
+          <span class="progress-label" id="progressLabel"></span>
+          <button class="ctrl primary" id="nextBtn">完成本步并继续</button>
+        </div>
+      </section>
+
+      <section class="manual-panel">
+        <article class="manual-card accent"><h3>所有兑换码，先过人工操作台</h3><p>Muse 使用指定邀请码；其他优惠码一律留空，避免把别人的归因码带进你的页面。</p><button class="ctrl" data-open-manual>检查邀请码与待填项</button></article>
+        <article class="manual-card"><h3>密钥不要填进向导</h3><p>API Key、OAuth token、SMTP 密码只在对应服务的安全设置里填写。这个页面只告诉你“需要哪一种”，不会收集或保存。</p></article>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="manualDialog">
+    <div class="modal-head"><h2>人工操作台</h2><button class="close" id="closeManual" aria-label="关闭">×</button></div>
+    <div class="modal-body">
+      <div class="security-note">不要在这里输入 API Key、OAuth token、密码、验证码或私钥。下面只接受普通优惠码/邀请码备注，且刷新页面即清空。</div>
+      <section class="manual-block">
+        <h3>Muse 邀请兑换</h3><p>加入后 48 小时内，在 Muse 的“设置”中完成兑换。</p>
+        <div class="invite"><pre id="inviteText">快来看看你的个人 AI 智能体 Muse。在加入后的 48 小时内通过"设置"兑现我的邀请码，我们就能分别获得 10 亿个 Muse 词元。
+邀请码：H5IK5G
+https://muse.ai/join</pre><div class="invite-actions"><button data-copy-target="inviteText">复制整段文案</button><button data-copy="H5IK5G">复制邀请码</button><a href="https://muse.ai/join" target="_blank" rel="noopener noreferrer">打开加入页面 ↗</a></div></div>
+      </section>
+      <section class="manual-block"><h3>域名注册商优惠码</h3><p>用于 Halo / 邮件服务等域名购买环节。这里需要你填自己的优惠码。</p><div class="field-row"><input id="domainPromo" type="text" autocomplete="off" placeholder="待填入：你自己的域名优惠码" aria-label="域名注册商优惠码"/><button data-copy-input="domainPromo">复制</button></div><p class="field-hint">未预填任何博客原文中的码。</p></section>
+      <section class="manual-block"><h3>VPS / 云服务优惠码</h3><p>购买服务器时使用。这里需要你填自己的优惠码。</p><div class="field-row"><input id="vpsPromo" type="text" autocomplete="off" placeholder="待填入：你自己的 VPS 优惠码" aria-label="VPS 优惠码"/><button data-copy-input="vpsPromo">复制</button></div></section>
+      <section class="manual-block"><h3>AI 服务 / 模型平台优惠码</h3><p>第三方 API 或额度活动如需归因码，在这里维护你自己的版本。</p><div class="field-row"><input id="aiPromo" type="text" autocomplete="off" placeholder="待填入：你自己的 AI 服务优惠码" aria-label="AI 服务优惠码"/><button data-copy-input="aiPromo">复制</button></div></section>
+      <section class="manual-block"><h3>你必须亲自完成的动作</h3><p>账号注册与邮箱验证、OAuth 授权、域名购买和 DNS 修改、VPS 下单、支付、API Key 创建、Muse 邀请兑换，以及 Poste.io 的 PTR 反向解析申请。涉及账号和密钥时不要让教程代填。</p></section>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+  const sources={
+    cli:"https://github.com/codeoneveryday-labs/cmdspace/blob/HEAD/docs/research/2026-09-02-router-for-me-cliproxyapi.md",
+    plus:"https://github.com/evan26ma/chatgpt-plus-guide",
+    newapi:"https://github.com/ai-lu-k/new-api",
+    openwebui:"https://docs.openwebui.com/ecosystem/computer/ai/connect-a-model",
+    poste:"https://github.com/andrisetiaji/docs-implementation-poste-io-private-server/blob/HEAD/README.md",
+    muse:"https://muse.ai/join"
+  };
+  const guides=[
+    {
+      id:"cli",label:"CLIProxyAPI 聚合",tag:"01 / AI GATEWAY",title:"把多家订阅收进一个兼容端点",desc:"适合已经有 Codex、Claude 或 Gemini 等合法账户，希望在本机统一切换模型的人。先只开放本机访问，再考虑远程部署。",difficulty:"中阶 · 约 25 分钟",source:sources.cli,
+      stages:[
+        {name:"判断",title:"先确认它是不是你的解法",lead:"CLIProxyAPI 是协议转换与账户路由层，不提供模型额度，也不会替你创建订阅。",tasks:[
+          ["确认账户来源","准备你本人可用且条款允许的订阅或 API 账户；不要购买来源不明的共享凭据。"],
+          ["选择运行位置","个人使用优先本机；放到 VPS 时必须加 API Key、限制管理接口并启用 HTTPS。"],
+          ["确定客户端","Codex、OpenCode 或其他客户端需要支持自定义 OpenAI 兼容 Base URL。"]],note:"先画清数据流：客户端 → 本地网关 → 官方模型服务。任何一段无法自定义，就不要硬接。"},
+        {name:"安装",title:"安装并先在本机启动",lead:"先让服务只监听回环地址，确认可用后再配置守护进程。",tasks:[
+          ["macOS 安装","使用 Homebrew 安装并启动服务。","brew install cliproxyapi\nbrew services start cliproxyapi"],
+          ["Linux / Docker","按项目的当前安装文档选择一种方式，不要同时混用二进制与容器部署。"],
+          ["记录配置位置","Homebrew 与 Linux/Docker 的配置目录不同；修改前先做一份带日期的备份。"]],note:"不要把登录产生的 OAuth 文件提交到 Git 仓库，也不要复制给别人。"},
+        {name:"授权",title:"由你亲自完成 OAuth 登录",lead:"授权页涉及你的模型账户，必须由账户持有人在官方页面完成。",tasks:[
+          ["执行登录子命令","根据目标服务选择 Codex、Claude 或 Gemini 登录方式。终端应给出官方授权地址。"],
+          ["核对回调","远程服务器通常需要 SSH 隧道或设备码流程；不要把回调端口直接暴露到公网。"],
+          ["检查文件权限","认证目录仅允许当前用户读取，服务日志不应输出 token。"]],note:"人工操作：浏览器登录、二次验证、授权确认。页面不会替你保存任何凭据。"},
+        {name:"接入",title:"把客户端指向兼容端点",lead:"Base URL 通常以 /v1 结尾；API Key 使用你为网关单独生成的值。",tasks:[
+          ["设置 Base URL","本机默认示例可按文档核对为 http://127.0.0.1:8317/v1。"],
+          ["配置网关密钥","为客户端创建独立 Key，便于撤销；不要复用上游账户密码。"],
+          ["选择模型","先从 /v1/models 或客户端模型列表确认实际 ID，再保存配置。"]],note:"密钥只填到客户端安全设置，不要粘贴到本网站。"},
+        {name:"验收",title:"用最小请求完成验收",lead:"先验证连通性，再验证模型切换和故障回退。",tasks:[
+          ["列出模型","确认返回 200 且模型列表符合已授权账户。"],
+          ["发一个短请求","检查响应模型、耗时和错误日志，不要一开始就跑长任务。"],
+          ["收紧暴露面","公网部署应启用 HTTPS、防火墙、强 Key；管理接口保持关闭或仅限内网。"]],note:"完成标准：客户端能调用、日志无明文凭据、服务重启后仍可用。"}]
+    },
+    {
+      id:"halo",label:"Cloudflare 加速 Halo",tag:"02 / WEB DELIVERY",title:"让 Halo 站点经过 Cloudflare 安全分发",desc:"适合已有域名与可访问 Halo 站点的人。核心是 DNS、回源 HTTPS、缓存边界和真实访客 IP。",difficulty:"中阶 · 约 30 分钟",source:null,
+      stages:[
+        {name:"准备",title:"准备域名、源站和回源证书",lead:"先确认不经过 Cloudflare 时，源站就能稳定访问。",tasks:[["检查源站","Halo 与反向代理均正常，后台登录、上传和 API 请求没有 5xx。"],["确定域名","选定主域名或子域名，并记录源站公网 IP。"],["准备优惠码","如果要新购域名，请在人工操作台填你自己的优惠码；默认不带任何第三方码。"]],note:"人工操作：购买域名、登录 DNS 服务商、修改解析。"},
+        {name:"接入",title:"把域名托管到 Cloudflare",lead:"添加站点后按提示把权威 DNS 服务器改为 Cloudflare 分配的地址。",tasks:[["添加站点","在 Cloudflare 中输入域名并导入现有解析记录。"],["修改 NS","回到域名注册商完成 Nameserver 替换。"],["等待激活","状态变为 Active 后再继续，避免同时改两套 DNS。"]],note:"只复制 Cloudflare 控制台显示的 NS 值，不要照搬别人截图。"},
+        {name:"解析",title:"创建指向 Halo 源站的记录",lead:"网站流量可以开启代理；邮件相关记录必须保持仅 DNS。",tasks:[["添加 A/AAAA","将站点主机名指向源站 IP，核对是否需要开启橙色云。"],["设置 SSL 模式","源站有有效证书时使用 Full (strict)，不要用 Flexible 绕开证书问题。"],["保留回源访问","防火墙允许 Cloudflare 回源；如限制 IP，使用官方最新网段。"]],note:"邮件 MX、mail 主机名和验证记录不要开启 HTTP 代理。"},
+        {name:"规则",title:"缓存静态资源，绕过后台与 API",lead:"Halo 的后台、登录、预览与动态 API 不应被页面缓存。",tasks:[["默认缓存","优先使用 Cloudflare 默认策略，确认无误后再加 Cache Rule。"],["排除动态路径","按你的 Halo 版本识别后台与 API 路径，设置 Bypass。"],["真实 IP","在反代中信任 Cloudflare 头部，并限制只有可信代理可改写客户端 IP。"]],note:"不要为了“秒开”开启 Cache Everything 后忘记排除后台。"},
+        {name:"验收",title:"分别测试访客端与后台端",lead:"缓存命中不是唯一目标，登录和内容更新也必须正常。",tasks:[["访客测试","无痕窗口打开首页与文章，检查 HTTPS、图片和字体。"],["后台测试","登录、保存草稿、上传小图并退出，确认无循环跳转。"],["清缓存测试","发布更新后执行单 URL 清理，确认新内容能正确出现。"]],note:"完成标准：前台稳定、后台可写、证书链完整、动态页面未被误缓存。"}]
+    },
+    {
+      id:"muse",label:"Muse 邀请奖励",tag:"03 / MUSE INVITE",title:"在 48 小时窗口内完成 Muse 邀请兑换",desc:"这是唯一预置的邀请码路线。加入后进入“设置”兑换 H5IK5G，双方分别获得 10 亿 Muse 词元。",difficulty:"入门 · 约 3 分钟",source:sources.muse,
+      stages:[
+        {name:"打开",title:"从指定加入页进入 Muse",lead:"先打开加入页面，使用你自己的账户继续。",tasks:[["打开加入页","点击本路线的参考入口或人工操作台里的加入按钮。"],["创建或登录账户","邮箱验证、账户登录必须由你本人完成。"],["记录加入时间","邀请码需要在加入后的 48 小时内兑现。"]],note:"不要向任何人发送登录验证码或密码。"},
+        {name:"定位",title:"进入 Muse 的“设置”",lead:"完成加入后，从账户界面打开设置。",tasks:[["确认当前账户","确保是你刚刚加入、且要领取词元的账户。"],["打开设置","寻找邀请码、兑换或类似入口；页面文字可能随版本变化。"],["检查时间窗口","若已超过 48 小时，不要假装兑换成功。"]],note:"人工操作：登录、邮箱验证、进入设置。"},
+        {name:"兑换",title:"输入 H5IK5G 并确认",lead:"这是用户指定的 Muse 邀请码，不使用博客原文里的码。",tasks:[["复制邀请码","在人工操作台点击“复制邀请码”，或手动输入 H5IK5G。"],["粘贴并核对","确认字符为 H5IK5G，前后没有空格。"],["提交兑换","阅读页面上的实时奖励说明，再确认兑换。"]],note:"唯一固定邀请码：H5IK5G。其他活动码均保持待填入。"},
+        {name:"确认",title:"确认兑换结果与词元到账",lead:"以 Muse 页面显示的账户余额和记录为准。",tasks:[["查看成功提示","保存成功状态，但不要公开账户信息。"],["检查词元余额","双方预期各得 10 亿 Muse 词元；若规则变化，以页面实时说明为准。"],["异常处理","失败时截图错误提示并联系官方支持，不要反复提交。"]],note:"网页活动规则可能变化；实际资格与到账结果以 Muse 页面为准。"},
+        {name:"分享",title:"复制完整邀请文案",lead:"人工操作台已放入指定文案和加入链接。",tasks:[["复制整段文案","使用按钮复制，不用重新拼写邀请码。"],["选择发送对象","只分享给愿意了解 Muse 的人。"],["提醒 48 小时","把关键时间窗口说清楚。"]],note:"本页面不会自动发送消息；分享动作由你决定并亲自完成。"}]
+    },
+    {
+      id:"poste",label:"Poste.io 自建邮局",tag:"04 / MAIL SERVER",title:"用 Docker 搭一套可验证的域名邮箱",desc:"邮件系统比普通网站更依赖网络信誉与 DNS。先确认 25 端口和 PTR，再部署容器。",difficulty:"进阶 · 约 60 分钟",source:sources.poste,
+      stages:[
+        {name:"可行性",title:"先查 25 端口、固定 IP 与 PTR",lead:"这三项任何一项不满足，发信信誉都会受影响。",tasks:[["确认固定公网 IP","动态 IP 或共享 NAT 不适合自建邮件服务器。"],["确认 25 端口","向 VPS 服务商确认出站 25 端口未封锁。"],["确认 PTR 权限","反向解析通常只能由 VPS 服务商设置为 mail.你的域名。"]],note:"人工操作：向服务商申请 PTR、确认端口政策、购买 VPS。"},
+        {name:"DNS",title:"先规划邮件域名与验证记录",lead:"建议用 mail.example.com 作为主机名，根域设置 MX 指向它。",tasks:[["A 记录","mail 子域指向服务器 IP，保持仅 DNS。"],["MX 记录","根域 MX 指向 mail 子域，不要直接填 IP。"],["SPF / DKIM / DMARC","SPF 声明允许发信源；DKIM 公钥由 Poste.io 生成；DMARC 从观察策略开始。"]],note:"Cloudflare 的橙色云不代理 SMTP/IMAP；邮件主机名必须灰云。"},
+        {name:"部署",title:"部署 Poste.io 容器并挂载数据",lead:"主机名、时区、数据目录和端口必须在启动前确定。",tasks:[["释放端口","确认 25、80、443、465、587、993 等未被其他服务占用。"],["建立数据卷","邮件与配置需要持久化目录，并纳入备份。"],["启动容器","使用官方当前镜像与文档，避免复制多年以前的版本参数。"]],note:"邮件数据是高价值资产；先规划备份，再创建真实邮箱。"},
+        {name:"初始化",title:"在管理界面完成域与证书设置",lead:"管理员密码、邮箱账户与 DKIM 私钥都只能在你的服务中创建。",tasks:[["创建管理员","使用唯一强密码并启用可用的二次验证。"],["添加域与邮箱","先创建一个测试邮箱，再逐步增加账户。"],["签发证书与 DKIM","确认证书覆盖邮件主机名，把控制台生成的 DKIM TXT 写回 DNS。"]],note:"不要把管理员密码或 DKIM 私钥粘贴到教程页面。"},
+        {name:"验收",title:"收、发、信誉三条线分别验收",lead:"能打开 Webmail 不等于外部邮件可以稳定收发。",tasks:[["外部收信","从外部邮箱发到自建邮箱，确认 MX 与入站端口。"],["外部发信","发到主流邮箱，检查是否退信或进入垃圾箱。"],["检查记录","验证 PTR、SPF、DKIM、DMARC 对齐，并观察日志。"]],note:"完成标准：双向收发、TLS 正常、验证记录通过、无开放中继。"}]
+    },
+    {
+      id:"codex",label:"Codex 接自建中转",tag:"05 / CODEX CLIENT",title:"把 Codex 客户端连接到自建兼容网关",desc:"前提是你的客户端版本支持自定义提供商或 Base URL，且网关明确实现所需 API。",difficulty:"中阶 · 约 20 分钟",source:sources.cli,
+      stages:[
+        {name:"确认",title:"确认客户端与网关的协议交集",lead:"不要只看到“兼容 OpenAI”就默认所有接口都兼容。",tasks:[["确认 Codex 版本","查看当前版本支持的配置字段和 API 类型。"],["确认网关能力","网关需要公开模型列表，并实现客户端实际调用的端点。"],["准备独立 Key","为 Codex 创建专用网关 Key，便于撤销与限额。"]],note:"人工操作：在网关后台创建 Key；不要在本页填写。"},
+        {name:"地址",title:"确定唯一的 Base URL",lead:"公网使用 HTTPS；末尾是否需要 /v1 以网关文档为准。",tasks:[["本机网关","使用回环地址，避免无意暴露。"],["远程网关","使用受信任证书的 HTTPS 域名。"],["连通性测试","先用 /models 或健康检查确认网络与证书。"]],note:"不要关闭 TLS 验证来掩盖证书错误。"},
+        {name:"配置",title:"写入客户端提供商配置",lead:"字段名以 Codex 当前版本文档为准，不复制旧版配置。",tasks:[["设置 Base URL","只改到你的网关地址。"],["引用 Key","优先环境变量或系统安全存储，不把 Key 提交到仓库。"],["设置模型 ID","使用网关实际返回的模型名。"]],note:"密钥放环境变量；配置文件只能写变量名或安全引用。"},
+        {name:"测试",title:"从短请求开始测试",lead:"先测试文本请求，再逐步尝试工具调用和长上下文。",tasks:[["最小文本请求","确认能返回内容和正确模型。"],["工具调用","若任务依赖工具，单独测试 function/tool calling。"],["异常路径","用不存在的模型测试错误是否清晰，而不是静默回退。"]],note:"记录 HTTP 状态码与网关日志中的请求 ID，排障时不要贴 Key。"},
+        {name:"收口",title:"加限额、监控与撤销能力",lead:"自建网关的风险边界由你负责。",tasks:[["限制 Key 权限","按模型、速率或额度限制客户端 Key。"],["保留最少日志","避免记录完整提示词与 Authorization 头。"],["准备回退","保留官方直连配置，网关异常时可以切回。"]],note:"完成标准：连接稳定、Key 可撤销、日志不含敏感信息。"}]
+    },
+    {
+      id:"newapi",label:"New API 模型网关",tag:"06 / MODEL HUB",title:"部署 New API，先从单管理员、单渠道开始",desc:"它是模型聚合与分发面板。商业化之前，先把数据持久化、管理员安全和上游计费跑通。",difficulty:"进阶 · 约 45 分钟",source:sources.newapi,
+      stages:[
+        {name:"规划",title:"确定用途、数据库与域名",lead:"个人聚合和对外售卖的安全、合规、计费要求完全不同。",tasks:[["确定部署目的","个人使用先关闭公开注册；对外服务需要额外审查条款与支付合规。"],["选择数据层","测试可用内置数据；长期运行建议按官方文档配置受支持的数据库。"],["准备域名","网关域名与管理后台使用 HTTPS。"]],note:"不要默认开启注册、支付或公开售卖。"},
+        {name:"部署",title:"用 Docker 持久化启动服务",lead:"镜像版本、环境变量和卷路径以官方当前安装文档为准。",tasks:[["固定镜像版本","生产环境避免永久使用 latest。"],["挂载数据卷","确认容器重建后用户、渠道和令牌仍存在。"],["只开放必要端口","应用端口优先绑定本机，再由反向代理对外提供 HTTPS。"]],note:"初始管理员密码必须首次登录立即修改。"},
+        {name:"安全",title:"先收紧管理员与注册策略",lead:"管理后台暴露在公网前，先完成基础硬化。",tasks:[["修改管理员凭据","使用唯一强密码；若支持二次验证则开启。"],["关闭公开注册","除非你真的需要并已配置验证与风控。"],["设置可信代理","反代转发真实 IP，同时阻止客户端伪造相关头。"]],note:"人工操作：创建管理员、配置域名证书、决定是否开放注册。"},
+        {name:"渠道",title:"添加一个上游渠道并做模型映射",lead:"一次只接一个供应商，成功后再扩展。",tasks:[["创建上游 Key","在供应商官方控制台创建最小权限 Key。"],["填写渠道","在 New API 的安全设置中录入 Base URL、Key 和模型。"],["模型映射","客户端模型名与上游真实模型必须一一核对。"]],note:"API Key 只填到 New API 后台，不要填进本向导。"},
+        {name:"验收",title:"用专用令牌完成端到端验收",lead:"管理员 Key 与客户端 Key 分离。",tasks:[["创建测试令牌","设置很小的额度和速率限制。"],["调用 models 与 chat","确认模型列表、计费和错误码。"],["备份与更新","验证备份可恢复，再制定镜像更新流程。"]],note:"完成标准：单渠道可用、额度可控、数据可恢复、管理员安全。"}]
+    },
+    {
+      id:"swap",label:"VPS 增加 SWAP",tag:"07 / LINUX MEMORY",title:"给小内存 VPS 加一层可控的 SWAP",desc:"SWAP 能降低突发内存不足导致的进程终止，但不能替代真实内存。磁盘空间和 I/O 性能要先评估。",difficulty:"入门 · 约 10 分钟",source:null,
+      stages:[
+        {name:"检查",title:"查看内存、SWAP 与磁盘余量",lead:"已有 SWAP 时不要重复创建。",tasks:[["检查内存","查看 Mem 与 Swap 当前用量。","free -h\nswapon --show"],["检查磁盘","根分区至少保留高于计划 SWAP 的可用空间。","df -h /"],["决定大小","小内存机器可先考虑 1–2GB；数据库和休眠场景另行评估。"]],note:"人工操作：选择大小。不要机械套用“内存两倍”。"},
+        {name:"创建",title:"创建只允许 root 访问的交换文件",lead:"下面以 2GB 为例，请先按你的磁盘情况调整。",tasks:[["分配文件","优先使用 fallocate；若文件系统不支持再查对应文档。","sudo fallocate -l 2G /swapfile"],["收紧权限","交换文件必须为 600。","sudo chmod 600 /swapfile"],["格式化","将文件标记为 Linux swap。","sudo mkswap /swapfile"]],note:"命令会修改系统；执行前确认路径 /swapfile 不存在。"},
+        {name:"启用",title:"启用并验证",lead:"先临时启用，确认无错误后再配置开机挂载。",tasks:[["启用 SWAP","立即挂载交换文件。","sudo swapon /swapfile"],["检查结果","Swap 总量应发生变化。","free -h\nswapon --show"],["观察日志","如出现 I/O 或文件系统错误，立即停下排查。"]],note:"若启用失败，不要直接改 fstab。"},
+        {name:"持久化",title:"加入 fstab 并调节倾向",lead:"fstab 写错可能影响启动，先备份。",tasks:[["备份配置","保存修改前的 fstab。","sudo cp /etc/fstab /etc/fstab.bak"],["加入挂载项","确认没有重复行后再追加。","echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab"],["设置 swappiness","通用服务可从较低值开始，按工作负载观察。","sudo sysctl vm.swappiness=10"]],note:"不要重复追加 fstab 行。"},
+        {name:"验收",title:"重启前后各验证一次",lead:"目标是降低 OOM 风险，而不是让系统长期大量换页。",tasks:[["重启前检查","执行 swapon --show 并核对 fstab 只有一条。"],["安排维护重启","重启后确认 SWAP 自动启用。"],["持续观察","若 SWAP 长期高占用且延迟明显，应升级真实内存。"]],note:"完成标准：重启后存在、权限正确、系统无持续 thrashing。"}]
+    },
+    {
+      id:"deepseek",label:"Claude Desktop + DeepSeek",tag:"08 / DESKTOP CLIENT",title:"先判断 Claude Desktop 是否能接 DeepSeek，再决定桥接",desc:"官方桌面客户端未必提供通用 Base URL 输入框。不要通过修改未知文件强行注入；优先使用受支持客户端或本地兼容桥。",difficulty:"中阶 · 约 20 分钟",source:null,
+      stages:[
+        {name:"判断",title:"确认“桌面客户端”到底支持什么",lead:"客户端版本变化很快，先查当前设置里是否存在自定义提供商。",tasks:[["检查设置","查找 Provider、Base URL、API Type 等字段。"],["确认协议","DeepSeek 常见为 OpenAI 兼容接口；Claude 客户端可能需要 Anthropic 协议。"],["选择替代","若没有自定义入口，改用 Open WebUI 或支持自定义端点的客户端。"]],note:"没有官方入口就不要假装可以直接填写。"},
+        {name:"准备",title:"在官方平台创建独立 API Key",lead:"为桌面用途创建可撤销、可限额的 Key。",tasks:[["创建 Key","在 DeepSeek 官方控制台完成，Key 只显示一次时立即安全保存。"],["设置限额","若平台支持，设置预算与告警。"],["记录 Base URL 与模型名","只从官方文档复制，避免使用教程里的旧值。"]],note:"人工操作：登录、实名认证（如有）、充值、创建 Key。"},
+        {name:"桥接",title:"需要时使用可信的本地协议桥",lead:"桥接层只在本机监听，并负责协议转换。",tasks:[["选择维护活跃的项目","阅读许可证、更新记录与安全说明。"],["本机监听","绑定 127.0.0.1，不把 Key 放到前端或公共日志。"],["映射模型","把客户端模型标识明确映射到 DeepSeek 的真实模型。"]],note:"未知二进制和来路不明的一键脚本风险很高。"},
+        {name:"连接",title:"只在支持的配置入口填写",lead:"如果客户端不支持，回到“判断”选择替代客户端。",tasks:[["填 Base URL","使用本机桥地址或官方兼容端点。"],["安全引用 Key","优先系统钥匙串或环境变量。"],["保存并重启","完全退出客户端后重新打开。"]],note:"不要修改客户端签名文件或关闭系统安全保护。"},
+        {name:"验收",title:"验证模型身份、用量与隐私边界",lead:"能返回文本还不够，必须确认真正走的是目标渠道。",tasks:[["查看桥接日志","确认目标模型与 HTTP 状态，不记录正文。"],["查看供应商用量","控制台应出现对应请求。"],["删除测试 Key","如果只是试验，完成后撤销临时 Key。"]],note:"完成标准：模型与计费一致、Key 可撤销、无明文日志。"}]
+    },
+    {
+      id:"compatible",label:"Claude Desktop + 三方 API",tag:"09 / API COMPATIBILITY",title:"把“CPA 三方接口”当成兼容性项目来做",desc:"先确认服务商到底提供 Anthropic 兼容还是 OpenAI 兼容接口，再选择客户端。名称相似不代表可以互连。",difficulty:"中阶 · 约 20 分钟",source:null,
+      stages:[
+        {name:"核对",title:"向服务商拿到四个明确答案",lead:"缺少任何一项都先不要配置。",tasks:[["协议类型","Anthropic Messages、OpenAI Chat Completions 还是 Responses？"],["Base URL","是否需要 /v1，证书域名是否有效？"],["模型列表","真实模型 ID 与别名分别是什么？"],["认证方式","Bearer Key、OAuth 或其他头部？"]],note:"人工操作：向你选择的服务商核实；不要照搬博客截图。"},
+        {name:"风控",title:"检查服务商可信度与数据边界",lead:"第三方中转可以看到提示词与响应，敏感数据不要发送。",tasks:[["看隐私与留存","确认是否记录内容、保留多久、能否删除。"],["控制充值规模","先小额测试，不预存大额余额。"],["准备自己的优惠码","如果你有自有推广码，在人工操作台填；默认留空。"]],note:"任何优惠码都不证明服务本身可信。"},
+        {name:"客户端",title:"按协议选择客户端或桥接器",lead:"Anthropic 兼容才有机会直接接入相应客户端。",tasks:[["有官方入口","只使用客户端公开的自定义 Provider 功能。"],["协议不匹配","使用受审查的本地桥，或改用 Open WebUI。"],["无自定义入口","停止修改，选择支持自定义端点的工具。"]],note:"不建议下载未知来源的“魔改客户端”。"},
+        {name:"测试",title:"创建低额度 Key 做最小测试",lead:"不要一上来就放入长期主 Key。",tasks:[["创建测试 Key","限制模型、速率与额度。"],["发送非敏感请求","确认模型名、工具调用与流式输出。"],["检查用量","第三方控制台的用量应与测试一致。"]],note:"Key 仅放在客户端安全设置。"},
+        {name:"收口",title:"记录可撤销点与替代路线",lead:"第三方服务可能变更域名、模型和价格。",tasks:[["记录 Key 位置","知道从哪里撤销，不记录 Key 本身。"],["保留余额警报","设置低余额与异常用量提醒。"],["准备迁移","保存不含密钥的客户端配置说明。"]],note:"完成标准：协议匹配、低额测试通过、敏感数据不经过不可信中转。"}]
+    },
+    {
+      id:"openwebui",label:"Open WebUI 接兼容 API",tag:"10 / CHAT FRONTEND",title:"用 Open WebUI 连接一个 OpenAI 兼容网关",desc:"Open WebUI 是聊天前端，不自带模型。先部署，再在管理员连接设置里添加提供商。",difficulty:"中阶 · 约 25 分钟",source:sources.openwebui,
+      stages:[
+        {name:"部署",title:"部署 Open WebUI 并持久化数据",lead:"Docker 是常见路径；生产环境固定版本并设置数据卷。",tasks:[["选择部署方式","Docker 适合快速开始；Kubernetes 与 Python 适合已有运维体系。"],["持久化数据","用户、对话与设置写入数据卷；请规划备份。"],["限制暴露","首次初始化前不要直接开放公网。"]],note:"第一个注册账户通常拥有管理员权限，必须由你本人创建。"},
+        {name:"登录",title:"创建首个管理员并收紧注册",lead:"完成管理员创建后，再决定是否允许其他用户注册。",tasks:[["创建管理员","使用唯一强密码。"],["检查注册策略","个人站点关闭公开注册。"],["配置 HTTPS","通过受信任反代提供访问。"]],note:"人工操作：创建管理员、配置证书与域名。"},
+        {name:"连接",title:"在 Admin → Connections 添加提供商",lead:"OpenAI 兼容服务也选择 OpenAI 类型，并填写自定义 Base URL。",tasks:[["选择 Provider","兼容 OpenAI 的上游选择 OpenAI。"],["填写 Base URL","通常为 https://你的网关/v1；以服务商文档为准。"],["填写 API Key","只在管理后台安全字段填写，可设置 Prefix 避免模型重名。"]],note:"API Key 不要填到本网站，也不要截图公开。"},
+        {name:"模型",title:"让模型被正确发现与命名",lead:"自动发现失败时再手动限制模型列表。",tasks:[["自动发现","保存连接后刷新模型选择器。"],["处理重名","多个提供商出现相同模型 ID 时设置 Prefix ID。"],["确认 API Type","根据上游能力选择 Chat Completions 或 Responses。"]],note:"Docker 内的 localhost 指容器自身；跨容器应使用同一网络中的服务名。"},
+        {name:"验收",title:"从管理员测试扩展到普通用户",lead:"分别确认聊天、流式输出、附件和权限。",tasks:[["短对话","选择目标模型发送非敏感测试。"],["检查上游","网关应显示请求和正确计费。"],["最小权限","普通用户只能看到允许的模型与功能。"]],note:"完成标准：模型可选、请求到达正确上游、注册与权限符合预期。"}]
+    }
+  ];
+
+  let currentRoute=0,currentStage=0; const completed={};
+  const nav=document.getElementById('routeNav'),select=document.getElementById('routeSelect'),tabs=document.getElementById('stageTabs'),panel=document.getElementById('stagePanel');
+  const title=document.getElementById('guideTitle'),desc=document.getElementById('guideDesc'),kicker=document.getElementById('guideKicker'),difficulty=document.getElementById('guideDifficulty');
+  const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn'),progress=document.getElementById('progressLabel'),toast=document.getElementById('toast');
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+  function buildNav(){
+    nav.innerHTML=guides.map((g,i)=>`<button class="route-btn" data-route="${i}"><span class="route-num">${String(i+1).padStart(2,'0')}</span><span>${esc(g.label)}</span><span class="route-mark">→</span></button>`).join('');
+    select.innerHTML=guides.map((g,i)=>`<option value="${i}">${String(i+1).padStart(2,'0')} · ${esc(g.label)}</option>`).join('');
+  }
+  function render(){
+    const g=guides[currentRoute],s=g.stages[currentStage];
+    document.querySelectorAll('.route-btn').forEach((b,i)=>b.classList.toggle('active',i===currentRoute)); select.value=String(currentRoute);
+    kicker.textContent=g.tag; title.textContent=g.title; desc.textContent=g.desc; difficulty.textContent=g.difficulty;
+    tabs.innerHTML=g.stages.map((x,i)=>`<button class="stage-tab ${i===currentStage?'current':''} ${(completed[g.id]||[]).includes(i)?'done':''}" data-stage="${i}" role="tab" aria-selected="${i===currentStage}">${esc(x.name)}</button>`).join('');
+    const tasks=s.tasks.map((t,i)=>`<div class="task"><div class="task-index">${i+1}</div><div><h4>${esc(t[0])}</h4><p>${esc(t[1])}</p>${t[2]?`<div class="command">${esc(t[2])}<button class="copy-mini" data-copy="${esc(t[2])}">复制</button></div>`:''}</div></div>`).join('');
+    panel.innerHTML=`<div class="stage-main"><h3>${esc(s.title)}</h3><p class="lead">${esc(s.lead)}</p><div class="task-list">${tasks}</div></div><aside class="side-note"><h4>这一关的边界</h4><p>${esc(s.note)}</p>${currentStage===g.stages.length-1?'<p class="warning">完成后再进入下一条路线，不要并行改多个基础设施层。</p>':''}${g.source?`<a class="source-link" href="${g.source}" target="_blank" rel="noopener noreferrer">查看参考文档 ↗</a>`:'<p class="warning">执行前请再核对对应产品的当前官方文档。</p>'}</aside>`;
+    prev.disabled=currentStage===0; next.textContent=currentStage===g.stages.length-1?'标记本路线已完成':'完成本步并继续';
+    progress.textContent=`${currentStage+1} / ${g.stages.length} · 本次浏览进度`;
+  }
+  function setRoute(i){currentRoute=Number(i);currentStage=0;render();window.scrollTo({top:0,behavior:'smooth'})}
+  function showToast(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(showToast.t);showToast.t=setTimeout(()=>toast.classList.remove('show'),1600)}
+  async function copyText(text){try{await navigator.clipboard.writeText(text);showToast('已复制')}catch(e){showToast('复制失败，请手动选择')}}
+  document.addEventListener('click',e=>{
+    const r=e.target.closest('[data-route]'); if(r){setRoute(r.dataset.route);return}
+    const st=e.target.closest('[data-stage]'); if(st){currentStage=Number(st.dataset.stage);render();return}
+    const cp=e.target.closest('[data-copy]'); if(cp){copyText(cp.dataset.copy);return}
+    const ct=e.target.closest('[data-copy-target]'); if(ct){copyText(document.getElementById(ct.dataset.copyTarget).textContent);return}
+    const ci=e.target.closest('[data-copy-input]'); if(ci){const v=document.getElementById(ci.dataset.copyInput).value.trim(); v?copyText(v):showToast('这里还是空的');return}
+  });
+  select.addEventListener('change',()=>setRoute(select.value));
+  prev.addEventListener('click',()=>{if(currentStage>0){currentStage--;render()}});
+  next.addEventListener('click',()=>{const g=guides[currentRoute];completed[g.id]=completed[g.id]||[];if(!completed[g.id].includes(currentStage))completed[g.id].push(currentStage);if(currentStage<g.stages.length-1){currentStage++;render()}else{render();showToast('本路线已标记完成')}});
+  const dlg=document.getElementById('manualDialog'); document.querySelectorAll('[data-open-manual]').forEach(b=>b.addEventListener('click',()=>dlg.showModal())); document.getElementById('closeManual').addEventListener('click',()=>dlg.close()); dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+  buildNav();render();
+})();
+</script>
+</body>
+</html>
