@@ -27,12 +27,13 @@
     .rail{position:sticky;top:0;height:100vh;padding:28px 22px 24px;border-right:1px solid var(--line);background:var(--paper);display:flex;flex-direction:column;overflow:auto}
     .rail-intro{padding:0 8px 22px}.status-line{display:flex;align-items:center;gap:9px;color:var(--teal);font:600 12px/1.4 "IBM Plex Mono",monospace;letter-spacing:.04em}.status-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 5px var(--soft)}
     .rail h2{font-size:22px;line-height:1.25;margin:15px 0 8px}.rail p{margin:0;color:var(--muted);font-size:13px}
+    .series-label{margin:2px 8px 8px;color:var(--muted);font:600 10px/1.4 "IBM Plex Mono",monospace;letter-spacing:.08em}.series-nav{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:18px}.series-btn{border:1px solid var(--line);background:transparent;border-radius:9px;text-align:left;padding:9px 10px;cursor:pointer;color:var(--muted);font-size:12px}.series-btn:hover{background:var(--paper-2);color:var(--ink)}.series-btn.active{border-color:var(--teal);background:var(--soft);color:var(--teal-2);font-weight:600}.series-count{display:block;margin-top:2px;font:500 10px/1.4 "IBM Plex Mono",monospace}
     .route-nav{display:grid;gap:7px}.route-btn{border:0;background:transparent;border-radius:10px;text-align:left;padding:11px 12px;display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;cursor:pointer;color:var(--muted)}
     .route-btn:hover{background:var(--paper-2);color:var(--ink)}.route-btn.active{background:var(--soft);color:var(--teal-2);font-weight:600}.route-num{font:600 11px/1 "IBM Plex Mono",monospace}.route-mark{font-size:12px;color:var(--teal)}
     .rail-bottom{margin-top:auto;padding:18px 8px 0}.manual-open{width:100%;border:1px solid var(--line);background:var(--paper-2);border-radius:10px;padding:11px 14px;cursor:pointer;font-weight:600}.manual-open:hover{border-color:var(--teal)}
     .main{min-width:0;padding:52px clamp(24px,5vw,76px) 80px}.hero{max-width:920px;margin:0 auto 32px}.hero h1{font-size:clamp(34px,5vw,66px);line-height:1.04;letter-spacing:-.045em;margin:0 0 18px;max-width:820px}.hero p{font-size:17px;color:var(--muted);max-width:720px;margin:0}
     .hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.chip{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 11px;font-size:12px;color:var(--muted)}
-    .mobile-picker{display:none;max-width:920px;margin:0 auto 20px}.mobile-picker label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}.mobile-picker select{width:100%;padding:12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;color:var(--ink)}
+    .mobile-picker{display:none;max-width:920px;margin:0 auto 20px;grid-template-columns:1fr 1fr;gap:10px}.mobile-picker label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}.mobile-picker select{width:100%;padding:12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;color:var(--ink)}
     .workspace{max-width:920px;margin:0 auto;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
     .guide-head{display:grid;grid-template-columns:1fr auto;gap:18px;padding:30px 34px;border-bottom:1px solid var(--line);align-items:start}.guide-kicker{color:var(--teal);font:600 12px/1.4 "IBM Plex Mono",monospace;margin-bottom:10px}.guide-title{font-size:clamp(25px,3vw,38px);line-height:1.18;margin:0 0 8px;letter-spacing:-.025em}.guide-desc{margin:0;color:var(--muted);max-width:680px}.difficulty{font:600 11px/1 "IBM Plex Mono",monospace;border:1px solid var(--line);padding:8px 9px;border-radius:7px;color:var(--muted);white-space:nowrap}
     .route-map{display:flex;gap:0;padding:0 34px;border-bottom:1px solid var(--line);overflow:hidden}.stage-tab{position:relative;flex:1;border:0;border-bottom:3px solid transparent;background:transparent;padding:16px 8px 13px;color:var(--muted);font-size:13px;cursor:pointer}.stage-tab.current{color:var(--teal);border-bottom-color:var(--teal);font-weight:600}.stage-tab.done::after{content:"✓";margin-left:6px;color:var(--teal)}
@@ -46,8 +47,8 @@
     .modal-head{position:sticky;top:0;background:var(--paper);display:flex;justify-content:space-between;align-items:center;padding:22px 24px;border-bottom:1px solid var(--line);z-index:2}.modal-head h2{margin:0;font-size:22px}.close{border:0;background:var(--paper-2);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:19px}.modal-body{padding:24px}.manual-block{padding:18px 0;border-top:1px solid var(--line)}.manual-block:first-child{border-top:0;padding-top:0}.manual-block h3{font-size:17px;margin:0 0 5px}.manual-block p{font-size:13px;color:var(--muted);margin:0 0 12px}.field-row{display:grid;grid-template-columns:1fr auto;gap:8px}.field-row input{min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:10px 11px}.field-row button{border:1px solid var(--line);background:var(--paper-2);border-radius:8px;padding:8px 11px;cursor:pointer}.field-hint{font-size:11px!important;margin-top:7px!important}.invite{background:var(--soft);padding:16px;border-radius:9px}.invite pre{white-space:pre-wrap;margin:0;font:13px/1.7 "IBM Plex Sans SC",sans-serif}.invite-actions{display:flex;gap:8px;margin-top:12px}.invite-actions button,.invite-actions a{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:8px 11px;font-size:12px;cursor:pointer;text-decoration:none}.security-note{background:var(--red-soft);color:var(--red);padding:12px 14px;border-radius:8px;font-size:12px;margin-bottom:18px}
     .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:9px 13px;border-radius:8px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:20}.toast.show{opacity:1;transform:translate(-50%,0)}
     .noscript{padding:16px;background:var(--amber-soft);color:var(--amber)}
-    @media(max-width:860px){.shell{display:block}.rail{display:none}.main{padding:30px 16px 64px}.hero{margin-bottom:22px}.hero h1{font-size:40px}.mobile-picker{display:block}.guide-head{padding:24px 20px}.route-map{padding:0 8px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible}.stage-tab{min-width:0;padding-inline:3px;font-size:12px}.stage{padding:25px 20px;grid-template-columns:1fr}.side-note{order:-1}.stage-controls{padding:17px 20px 22px}.manual-panel{grid-template-columns:1fr}.difficulty{display:none}}
-    @media(max-width:520px){.hero h1{font-size:34px}.hero p{font-size:15px}.workspace{border-left:0;border-right:0;margin-left:-16px;margin-right:-16px}.guide-head{grid-template-columns:1fr}.route-map{justify-content:flex-start}.stage{gap:18px}.stage-controls{display:grid;grid-template-columns:1fr 1fr}.progress-label{grid-column:1/-1;text-align:center;order:-1}.ctrl{width:100%}.manual-panel{margin-top:18px}.modal-body{padding:18px}}
+    @media(max-width:860px){.shell{display:block}.rail{display:none}.main{padding:30px 16px 64px}.hero{margin-bottom:22px}.hero h1{font-size:40px}.mobile-picker{display:grid}.guide-head{padding:24px 20px}.route-map{padding:0 8px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible}.stage-tab{min-width:0;padding-inline:3px;font-size:12px}.stage{padding:25px 20px;grid-template-columns:1fr}.side-note{order:-1}.stage-controls{padding:17px 20px 22px}.manual-panel{grid-template-columns:1fr}.difficulty{display:none}}
+    @media(max-width:520px){.hero h1{font-size:34px}.hero p{font-size:15px}.mobile-picker{grid-template-columns:1fr}.workspace{border-left:0;border-right:0;margin-left:-16px;margin-right:-16px}.guide-head{grid-template-columns:1fr}.route-map{justify-content:flex-start}.stage{gap:18px}.stage-controls{display:grid;grid-template-columns:1fr 1fr}.progress-label{grid-column:1/-1;text-align:center;order:-1}.ctrl{width:100%}.manual-panel{margin-top:18px}.modal-body{padding:18px}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
@@ -57,23 +58,26 @@
     <aside class="rail">
       <div class="rail-intro">
         <div class="status-line"><span class="status-dot"></span>CONFIG WORKBENCH</div>
-        <h2>十条路线，一次理清</h2>
-        <p>每条路线都拆成准备、部署、配置、验收与人工操作。</p>
+        <h2>分组完成，不赶进度</h2>
+        <p>十条路线拆成四组，每次只处理同一类配置。</p>
       </div>
+      <div class="series-label">选择一组</div>
+      <nav class="series-nav" id="groupNav" aria-label="教程分组"></nav>
+      <div class="series-label">本组路线</div>
       <nav class="route-nav" id="routeNav" aria-label="配置路线"></nav>
       <div class="rail-bottom"><button class="manual-open" data-open-manual>打开人工操作台</button></div>
     </aside>
 
     <main class="main">
       <section class="hero">
-        <h1>先选路线，再一步一步把服务跑起来。</h1>
-        <p>这不是一页堆满命令的文章。先判断前置条件，再执行配置，最后按检查点验收；需要你亲自登录、授权、兑换或填写的地方会单独亮出来。</p>
-        <div class="hero-meta"><span class="chip">10 条配置路线</span><span class="chip">手机 / 桌面自适应</span><span class="chip">输入仅本次浏览有效</span></div>
+        <h1>分成四组，每次只做一小批。</h1>
+        <p>先选一个主题组，再专注其中 2–3 条路线。每条路线仍按前置条件、配置与验收逐步推进；登录、授权、兑换或填写等人工操作会单独亮出来。</p>
+        <div class="hero-meta"><span class="chip">4 组 · 每组 2–3 条</span><span class="chip">一次专注一条路线</span><span class="chip">输入仅本次浏览有效</span></div>
       </section>
 
       <div class="mobile-picker">
-        <label for="routeSelect">当前路线</label>
-        <select id="routeSelect" aria-label="选择配置路线"></select>
+        <div><label for="groupSelect">当前分组</label><select id="groupSelect" aria-label="选择教程分组"></select></div>
+        <div><label for="routeSelect">本组路线</label><select id="routeSelect" aria-label="选择配置路线"></select></div>
       </div>
 
       <section class="workspace" aria-live="polite">
@@ -233,18 +237,29 @@ https://muse.ai/join</pre><div class="invite-actions"><button data-copy-target="
     }
   ];
 
-  let currentRoute=0,currentStage=0; const completed={};
+  const groups=[
+    {id:"gateway",label:"网关与前端",routes:["cli","newapi","openwebui"]},
+    {id:"client",label:"客户端接入",routes:["codex","deepseek","compatible"]},
+    {id:"infra",label:"站点与邮件",routes:["halo","poste"]},
+    {id:"quick",label:"轻量上手",routes:["muse","swap"]}
+  ];
+  let currentGroup=0,currentRoute=0,currentStage=0; const completed={};
+  const groupNav=document.getElementById('groupNav'),groupSelect=document.getElementById('groupSelect');
   const nav=document.getElementById('routeNav'),select=document.getElementById('routeSelect'),tabs=document.getElementById('stageTabs'),panel=document.getElementById('stagePanel');
   const title=document.getElementById('guideTitle'),desc=document.getElementById('guideDesc'),kicker=document.getElementById('guideKicker'),difficulty=document.getElementById('guideDifficulty');
   const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn'),progress=document.getElementById('progressLabel'),toast=document.getElementById('toast');
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
   function buildNav(){
-    nav.innerHTML=guides.map((g,i)=>`<button class="route-btn" data-route="${i}"><span class="route-num">${String(i+1).padStart(2,'0')}</span><span>${esc(g.label)}</span><span class="route-mark">→</span></button>`).join('');
-    select.innerHTML=guides.map((g,i)=>`<option value="${i}">${String(i+1).padStart(2,'0')} · ${esc(g.label)}</option>`).join('');
+    groupNav.innerHTML=groups.map((g,i)=>`<button class="series-btn ${i===currentGroup?'active':''}" data-group="${i}"><span>${esc(g.label)}</span><span class="series-count">${g.routes.length} 条路线</span></button>`).join('');
+    groupSelect.innerHTML=groups.map((g,i)=>`<option value="${i}">${esc(g.label)} · ${g.routes.length} 条</option>`).join('');
+    groupSelect.value=String(currentGroup);
+    const routeIndexes=groups[currentGroup].routes.map(id=>guides.findIndex(g=>g.id===id));
+    nav.innerHTML=routeIndexes.map((i,n)=>`<button class="route-btn" data-route="${i}"><span class="route-num">${String(n+1).padStart(2,'0')}</span><span>${esc(guides[i].label)}</span><span class="route-mark">→</span></button>`).join('');
+    select.innerHTML=routeIndexes.map((i,n)=>`<option value="${i}">${String(n+1).padStart(2,'0')} · ${esc(guides[i].label)}</option>`).join('');
   }
   function render(){
     const g=guides[currentRoute],s=g.stages[currentStage];
-    document.querySelectorAll('.route-btn').forEach((b,i)=>b.classList.toggle('active',i===currentRoute)); select.value=String(currentRoute);
+    document.querySelectorAll('.route-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.route)===currentRoute)); select.value=String(currentRoute);
     kicker.textContent=g.tag; title.textContent=g.title; desc.textContent=g.desc; difficulty.textContent=g.difficulty;
     tabs.innerHTML=g.stages.map((x,i)=>`<button class="stage-tab ${i===currentStage?'current':''} ${(completed[g.id]||[]).includes(i)?'done':''}" data-stage="${i}" role="tab" aria-selected="${i===currentStage}">${esc(x.name)}</button>`).join('');
     const tasks=s.tasks.map((t,i)=>`<div class="task"><div class="task-index">${i+1}</div><div><h4>${esc(t[0])}</h4><p>${esc(t[1])}</p>${t[2]?`<div class="command">${esc(t[2])}<button class="copy-mini" data-copy="${esc(t[2])}">复制</button></div>`:''}</div></div>`).join('');
@@ -253,15 +268,18 @@ https://muse.ai/join</pre><div class="invite-actions"><button data-copy-target="
     progress.textContent=`${currentStage+1} / ${g.stages.length} · 本次浏览进度`;
   }
   function setRoute(i){currentRoute=Number(i);currentStage=0;render();window.scrollTo({top:0,behavior:'smooth'})}
+  function setGroup(i){currentGroup=Number(i);const firstId=groups[currentGroup].routes[0];currentRoute=guides.findIndex(g=>g.id===firstId);currentStage=0;buildNav();render();window.scrollTo({top:0,behavior:'smooth'})}
   function showToast(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(showToast.t);showToast.t=setTimeout(()=>toast.classList.remove('show'),1600)}
   async function copyText(text){try{await navigator.clipboard.writeText(text);showToast('已复制')}catch(e){showToast('复制失败，请手动选择')}}
   document.addEventListener('click',e=>{
+    const gr=e.target.closest('[data-group]'); if(gr){setGroup(gr.dataset.group);return}
     const r=e.target.closest('[data-route]'); if(r){setRoute(r.dataset.route);return}
     const st=e.target.closest('[data-stage]'); if(st){currentStage=Number(st.dataset.stage);render();return}
     const cp=e.target.closest('[data-copy]'); if(cp){copyText(cp.dataset.copy);return}
     const ct=e.target.closest('[data-copy-target]'); if(ct){copyText(document.getElementById(ct.dataset.copyTarget).textContent);return}
     const ci=e.target.closest('[data-copy-input]'); if(ci){const v=document.getElementById(ci.dataset.copyInput).value.trim(); v?copyText(v):showToast('这里还是空的');return}
   });
+  groupSelect.addEventListener('change',()=>setGroup(groupSelect.value));
   select.addEventListener('change',()=>setRoute(select.value));
   prev.addEventListener('click',()=>{if(currentStage>0){currentStage--;render()}});
   next.addEventListener('click',()=>{const g=guides[currentRoute];completed[g.id]=completed[g.id]||[];if(!completed[g.id].includes(currentStage))completed[g.id].push(currentStage);if(currentStage<g.stages.length-1){currentStage++;render()}else{render();showToast('本路线已标记完成')}});
