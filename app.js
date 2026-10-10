@@ -63,6 +63,18 @@ const steps = [
       '进入「设置」完成实名认证：选择 Sumsub 认证（审核快），身份证或护照均可，如实填写、照片拍清楚，不要用美颜或 AI 修图（图二）。',
       '认证通过后先回首页，不要急着点「免费申请卡片」——网站还没有余额，下一步先买 U。'
     ],
+        images:[
+      {
+        src:'./roogoo-register.png',
+        alt:'Roogoo 注册页面',
+        caption:'图一 · Roogoo 注册页面'
+      },
+      {
+        src:'./roogoo-verify.png',
+        alt:'Roogoo 实名认证页面',
+        caption:'图二 · Roogoo 实名认证页面'
+      }
+    ],
     note:'身份证和人脸信息只提交给 Roogoo 官方平台；费用和资格以平台当前页面为准。',
     button:'实名已通过，继续'
   },
