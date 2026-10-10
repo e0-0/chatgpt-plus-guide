@@ -57,7 +57,7 @@ const steps = [
     intro: '开始准备付款用的虚拟卡。请通过官方注册链接注册，并以平台当前页面为准。',
     coach: '实名用身份证或护照都可以，如实填写，大约 10 分钟通过。',
     kind: 'links',
-    links:[{label:'注册 Roogoo（官方注册链接）', url:'https://wap.roogoo.money/register'}],
+    links:[{label:'注册 Roogoo（官方注册链接）', url:'https://wap.roogoo.money/register?inviteCode=k5phwc'}],
     bullets:[
       '复制官方注册链接到浏览器打开，用任意邮箱注册账户密码（图一）。',
       '进入「设置」完成实名认证：选择 Sumsub 认证（审核快），身份证或护照均可，如实填写、照片拍清楚，不要用美颜或 AI 修图（图二）。',
